@@ -5,10 +5,12 @@ class Discount(private val date: VisitDate, private val order: Order) {
     private var dDayDiscount = 0
     private var weekdayDiscount = 0
     private var weekendDiscount = 0
+    private var specialDayDiscount = 0
     init {
         applyDDayDiscount()
         applyWeekdayDiscount()
         applyWeekendDiscount()
+        applySpecialDayDiscount()
     }
 
     private fun applyDDayDiscount() {
@@ -35,11 +37,18 @@ class Discount(private val date: VisitDate, private val order: Order) {
         }
     }
 
+    private fun applySpecialDayDiscount() {
+        if (date.isSpecialDay())
+            specialDayDiscount += 1000
+    }
+
     fun getDDayDiscount(): Int = dDayDiscount
 
     fun getWeekdayDiscount(): Int = weekdayDiscount
 
     fun getWeekendDiscount(): Int = weekendDiscount
+
+    fun getSpecialDayDiscount(): Int = specialDayDiscount
 
     fun getTotalDiscount(): Int {
         totalDiscount = weekdayDiscount + dDayDiscount
