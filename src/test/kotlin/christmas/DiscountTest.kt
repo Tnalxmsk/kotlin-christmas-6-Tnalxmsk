@@ -37,9 +37,20 @@ class DiscountTest {
         val menus = mutableMapOf<String, Int>()
         menus["티본스테이크"] = 3
         menus["크리스마스파스타"] = 2
-        val testDate = VisitDate(27)
+        val testDate = VisitDate(30)
         val testOrder = Order(menus)
         val discount = Discount(testDate, testOrder)
         assertThat(discount.getWeekendDiscount()).isEqualTo(6069+4046)
+    }
+
+    @Test
+    fun `특별 할인이 적용되었는지 확인`() {
+        val menus = mutableMapOf<String, Int>()
+        menus["티본스테이크"] = 3
+        menus["크리스마스파스타"] = 2
+        val testDate = VisitDate(31)
+        val testOrder = Order(menus)
+        val discount = Discount(testDate, testOrder)
+        assertThat(discount.getSpecialDayDiscount()).isEqualTo(1000)
     }
 }
