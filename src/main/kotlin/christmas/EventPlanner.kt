@@ -11,7 +11,7 @@ class EventPlanner {
         printHello()
         with(inputView) {
             readDate()
-            readMenu()
+            val order = readMenu()
         }
         printEventInfo()
         with(outputView) {

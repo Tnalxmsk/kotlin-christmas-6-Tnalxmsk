@@ -1,6 +1,8 @@
 package christmas.view
 
 import camp.nextstep.edu.missionutils.Console
+import christmas.Order
+import christmas.extension.toStringIntMap
 
 class InputView {
     fun readDate(): Int {
@@ -10,9 +12,9 @@ class InputView {
         return 0
     }
 
-    fun readMenu() {
+    fun readMenu(): Order {
         println("주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)")
         val inputMenu = Console.readLine()
-        // 메뉴를 분리해 맵 형식으로 보내?
+        return Order(inputMenu.toStringIntMap())
     }
 }
