@@ -1,11 +1,11 @@
 package christmas.extension
 
-fun String.toStringIntMap(): MutableMap<String, Int> {
-    val bundle = this.split(",")
-    val result =  mutableMapOf<String, Int>()
-    bundle.forEach { element ->
-        val elementBundle = element.split("-")
-        result[elementBundle.first()] = elementBundle.last().toInt()
+import christmas.model.menu.Menu
+
+fun String.toStringToMenuList(): List<Menu> {
+    val orders = this.split(",")
+    return orders.map{ order ->
+        val bundles = order.split("-")
+        Menu(bundles.first(), bundles.last().toInt())
     }
-    return result
 }

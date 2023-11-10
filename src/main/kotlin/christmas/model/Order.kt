@@ -2,15 +2,16 @@ package christmas.model
 
 import christmas.model.menu.Dessert
 import christmas.model.menu.MainDish
+import christmas.model.menu.Menu
 
-class Order(private val orderMenus: Map<String, Int>) {
+class Order(private val orderMenus: List<Menu>) {
     private fun isDessert(orderMenu: String): Boolean = Dessert.entries.any { it.menuName.contains(orderMenu) }
 
     private fun isMainDish(orderMenu: String): Boolean = MainDish.entries.any { it.menuName.contains(orderMenu) }
 
-    fun findDessert(): Map<String, Int> = orderMenus.filter { menu -> isDessert(menu.key) }
+    fun findDessert(): List<Menu> = orderMenus.filter { menu -> isDessert(menu.menuName) }
 
-    fun findMainDish(): Map<String, Int> = orderMenus.filter { menu -> isMainDish(menu.key) }
+    fun findMainDish(): List<Menu> = orderMenus.filter { menu -> isMainDish(menu.menuName) }
 
-    fun getOrderMenus(): Map<String, Int> = orderMenus
+    fun getOrderMenus(): List<Menu> = orderMenus
 }

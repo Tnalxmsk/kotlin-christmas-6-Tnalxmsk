@@ -24,16 +24,16 @@ class Discount(private val date: VisitDate, private val order: Order) {
     private fun applyWeekdayDiscount() {
         val menus = order.findDessert()
         if (menus.isEmpty() || date.isWeekday().not()) return
-        menus.values.forEach { count ->
-            weekdayDiscount += count * 2023
+        menus.forEach { menu ->
+            weekdayDiscount += menu.count * 2023
         }
     }
 
     private fun applyWeekendDiscount() {
         val menus = order.findMainDish()
         if (menus.isEmpty() || date.isWeekend().not()) return
-        menus.values.forEach {count ->
-            weekendDiscount += count * 2023
+        menus.forEach { menu ->
+            weekendDiscount += menu.count * 2023
         }
     }
 

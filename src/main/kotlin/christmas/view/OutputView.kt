@@ -6,8 +6,8 @@ import christmas.model.Order
 class OutputView(private val discount: Discount) {
     fun printMenu(order: Order) {
         println("<주문 메뉴>")
-        order.orderMenus.forEach { menu ->
-            println("${menu.key} ${menu.value}개")
+        order.getOrderMenus().forEach { menu ->
+            println("${menu.menuName} ${menu.count}개")
         }
         println()
     }
