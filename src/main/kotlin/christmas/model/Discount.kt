@@ -4,9 +4,11 @@ class Discount(private val date: VisitDate, private val order: Order) {
     private var totalDiscount = 0
     private var dDayDiscount = 0
     private var weekdayDiscount = 0
+    private var weekendDiscount = 0
     init {
         applyDDayDiscount()
         applyWeekdayDiscount()
+        applyWeekendDiscount()
     }
 
     private fun applyDDayDiscount() {
@@ -20,8 +22,16 @@ class Discount(private val date: VisitDate, private val order: Order) {
     private fun applyWeekdayDiscount() {
         val menus = order.findDessert()
         if (menus.isEmpty()) return
-        menus.values.forEach {
-            weekdayDiscount += it * 2023
+        menus.values.forEach { count ->
+            weekdayDiscount += count * 2023
+        }
+    }
+
+    private fun applyWeekendDiscount() {
+        val menus = order.findMainDish()
+        if (menus.isEmpty()) return
+        menus.values.forEach {count ->
+            weekendDiscount += count * 2023
         }
     }
 
@@ -29,7 +39,13 @@ class Discount(private val date: VisitDate, private val order: Order) {
 
     fun getWeekdayDiscount(): Int = weekdayDiscount
 
-    
+    fun getWeekendDiscount(): Int = weekendDiscount
+
+    fun getTotalDiscount(): Int {
+        totalDiscount = weekdayDiscount + dDayDiscount
+        return totalDiscount
+    }
+
 
     companion object {
         private const val DEFAULT_D_DAY_DISCOUNT = 1000
