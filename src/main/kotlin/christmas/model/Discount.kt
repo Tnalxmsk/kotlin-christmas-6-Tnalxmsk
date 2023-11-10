@@ -51,10 +51,13 @@ class Discount(private val date: VisitDate, private val order: Order) {
     fun getSpecialDayDiscount(): Int = specialDayDiscount
 
     fun getTotalDiscount(): Int {
-        totalDiscount = weekdayDiscount + dDayDiscount
+        if (date.isWeekend()) {
+            totalDiscount = weekendDiscount + dDayDiscount + specialDayDiscount
+            return totalDiscount
+        }
+        totalDiscount = weekdayDiscount + dDayDiscount + specialDayDiscount
         return totalDiscount
     }
-
 
     companion object {
         private const val DEFAULT_D_DAY_DISCOUNT = 1000
