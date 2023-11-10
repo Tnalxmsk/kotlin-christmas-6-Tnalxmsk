@@ -1,15 +1,15 @@
 package christmas.view
 
 import camp.nextstep.edu.missionutils.Console
-import christmas.Order
+import christmas.model.Order
 import christmas.extension.toStringIntMap
+import christmas.model.VisitDate
 
 class InputView {
-    fun readDate(): Int {
+    fun readDate(): VisitDate {
         println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)")
         val input = Console.readLine()
-        // 날짜는 할인을 위해 필요하겠지?
-        return 0
+        return VisitDate(input)
     }
 
     fun readMenu(): Order {
