@@ -3,8 +3,10 @@ package christmas.model
 class Discount(private val date: VisitDate, private val order: Order) {
     private var totalDiscount = 0
     private var dDayDiscount = 0
+    private var weekdayDiscount = 0
     init {
         applyDDayDiscount()
+        applyWeekdayDiscount()
     }
 
     private fun applyDDayDiscount() {
@@ -13,12 +15,21 @@ class Discount(private val date: VisitDate, private val order: Order) {
             return
         }
         dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.getVisitDate() - 1))
-        totalDiscount += dDayDiscount
+    }
+
+    private fun applyWeekdayDiscount() {
+        val menus = order.findDessert()
+        if (menus.isEmpty()) return
+        menus.values.forEach {
+            weekdayDiscount += it * 2023
+        }
     }
 
     fun getDDayDiscount(): Int = dDayDiscount
 
-    fun getTotalDiscount(): Int = totalDiscount
+    fun getWeekdayDiscount(): Int = weekdayDiscount
+
+    
 
     companion object {
         private const val DEFAULT_D_DAY_DISCOUNT = 1000
