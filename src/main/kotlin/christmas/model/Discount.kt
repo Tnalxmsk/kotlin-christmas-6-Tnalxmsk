@@ -12,7 +12,7 @@ class Discount(private val date: VisitDate, private val order: Order) {
     }
 
     private fun applyDDayDiscount() {
-        if (date.getVisitDate() > 25) {
+        if (date.isChristmasDDayEvent().not()) {
             dDayDiscount =  NOT_DISCOUNT_D_DAY
             return
         }
@@ -21,7 +21,7 @@ class Discount(private val date: VisitDate, private val order: Order) {
 
     private fun applyWeekdayDiscount() {
         val menus = order.findDessert()
-        if (menus.isEmpty()) return
+        if (menus.isEmpty() || date.isWeekday().not()) return
         menus.values.forEach { count ->
             weekdayDiscount += count * 2023
         }
@@ -29,7 +29,7 @@ class Discount(private val date: VisitDate, private val order: Order) {
 
     private fun applyWeekendDiscount() {
         val menus = order.findMainDish()
-        if (menus.isEmpty()) return
+        if (menus.isEmpty() || date.isWeekend().not()) return
         menus.values.forEach {count ->
             weekendDiscount += count * 2023
         }
