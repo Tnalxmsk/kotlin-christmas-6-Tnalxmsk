@@ -24,6 +24,10 @@ class OutputView(private val discount: Discount) {
     // 혜택 내용 출력
     fun printBenefitContent() {
         println("<혜택 내역>")
+        when {
+            discount.getTotalDiscount() == 0 -> println("없음")
+            discount.getDDayDiscount() > 0 -> println(D_DAY_DISCOUNT.format(discount.getDDayDiscount()))
+        }
         println()
     }
 
