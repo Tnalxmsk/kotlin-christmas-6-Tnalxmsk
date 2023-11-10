@@ -1,5 +1,6 @@
 package christmas
 
+import christmas.model.Discount
 import christmas.view.InputView
 import christmas.view.OutputView
 
@@ -9,13 +10,13 @@ class EventPlanner {
 
     fun startPlanner() {
         printHello()
-        with(inputView) {
-            readDate()
-            val order = readMenu()
-        }
+        val visitDate = inputView.readDate()
+        val order = inputView.readMenu()
+
         printEventInfo()
+
         with(outputView) {
-            printMenu()
+            printMenu(order)
             printBeforeDiscountPrice()
             printPresentationMenu()
             printBenefitContent()

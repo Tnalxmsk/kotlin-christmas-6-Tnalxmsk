@@ -1,15 +1,19 @@
 package christmas.view
 
+import christmas.model.Order
+import java.awt.Menu
+
 class OutputView {
-    fun printMenu() {
+    fun printMenu(order: Order) {
         println("<주문 메뉴>")
+        order.orderMenus.forEach { menu ->
+            println("${menu.key} ${menu.value}개")
+        }
         println()
-        // 입력으로 받은 메뉴를 출력
-        // Order 클래스에서 구현해보자
     }
     // 할인 전 결제 금액을 출력하고
     fun printBeforeDiscountPrice() {
-        println("<할인 전 주문 금액>\n")
+        println("<할인 전 주문 금액>")
         println()
     }
     // 증정 내용 출력
