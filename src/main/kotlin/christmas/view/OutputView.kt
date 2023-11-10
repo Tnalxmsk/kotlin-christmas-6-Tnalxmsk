@@ -1,9 +1,9 @@
 package christmas.view
 
+import christmas.model.Discount
 import christmas.model.Order
-import java.awt.Menu
 
-class OutputView {
+class OutputView(private val discount: Discount) {
     fun printMenu(order: Order) {
         println("<주문 메뉴>")
         order.orderMenus.forEach { menu ->
@@ -42,5 +42,9 @@ class OutputView {
     fun printEventBadge() {
         println("<12월 이벤트 배지>")
         println()
+    }
+
+    companion object {
+        private const val D_DAY_DISCOUNT = "크리스마스 디데이 할인: -%s원"
     }
 }

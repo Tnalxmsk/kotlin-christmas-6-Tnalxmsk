@@ -6,13 +6,13 @@ import christmas.view.OutputView
 
 class EventPlanner {
     private val inputView = InputView()
-    private val outputView = OutputView()
 
     fun startPlanner() {
         printHello()
         val visitDate = inputView.readDate()
         val order = inputView.readMenu()
-
+        val discount = Discount(visitDate, order)
+        val outputView = OutputView(discount)
         printEventInfo()
 
         with(outputView) {
