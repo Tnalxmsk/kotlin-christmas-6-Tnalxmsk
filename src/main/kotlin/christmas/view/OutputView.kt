@@ -25,7 +25,7 @@ class OutputView(private val discount: Discount) {
     fun printBenefitContent() {
         println("<혜택 내역>")
         when {
-            discount.getTotalDiscount() == 0 -> println("없음")
+            discount.getTotalDiscount() == 0 -> println(NO_DISCOUNT)
             discount.getDDayDiscount() > 0 -> println(D_DAY_DISCOUNT.format(discount.getDDayDiscount()))
         }
         println()
@@ -34,6 +34,10 @@ class OutputView(private val discount: Discount) {
     // 혜택 받은 금액을 출력
     fun printBenefitPrice() {
         println("<총혜택 금액>")
+        when(discount.getTotalDiscount()) {
+            0 -> println(ZERO_WON)
+            else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalDiscount()))
+        }
         println()
     }
 
@@ -49,6 +53,9 @@ class OutputView(private val discount: Discount) {
     }
 
     companion object {
-        private const val D_DAY_DISCOUNT = "크리스마스 디데이 할인: -%s원"
+        private const val NO_DISCOUNT = "없음"
+        private const val ZERO_WON = "0원"
+        private const val TOTAL_DISCOUNT_WON = "-%d원"
+        private const val D_DAY_DISCOUNT = "크리스마스 디데이 할인: -%d원"
     }
 }
