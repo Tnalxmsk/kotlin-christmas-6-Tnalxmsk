@@ -1,5 +1,6 @@
 package christmas.view
 
+import christmas.model.Badge
 import christmas.model.Discount
 import christmas.model.EventPresentation
 import christmas.model.Order
@@ -15,7 +16,7 @@ class OutputView(private val discount: Discount) {
 
     // 할인 전 결제 금액을 출력하고
     fun printBeforeDiscountPrice(totalPrice: Int) {
-        println("<할인 전 주문 금액>")
+        println("<할인 전 총주문 금액>")
         println(BEFORE_DISCOUNT_WON.format(totalPrice))
         println()
     }
@@ -70,9 +71,10 @@ class OutputView(private val discount: Discount) {
     }
 
     // 배지를 출력해야겠군
-    fun printEventBadge() {
+    fun printEventBadge(discount: Discount) {
         println("<12월 이벤트 배지>")
-        println()
+        val totalBenefitAmount = discount.getTotalDiscount() + discount.getEvenPresentationDiscount()
+        println(Badge.grantBadge(totalBenefitAmount))
     }
 
     companion object {

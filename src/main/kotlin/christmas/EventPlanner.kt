@@ -25,7 +25,7 @@ class EventPlanner {
             printBenefitContent()
             printBenefitPrice()
             printAfterDiscountPrice(price.getTotalPrice())
-            printEventBadge()
+            printEventBadge(discount)
         }
     }
 
