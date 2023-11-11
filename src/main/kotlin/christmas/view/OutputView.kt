@@ -1,6 +1,7 @@
 package christmas.view
 
 import christmas.model.Discount
+import christmas.model.EventPresentation
 import christmas.model.Order
 
 class OutputView(private val discount: Discount) {
@@ -11,22 +12,30 @@ class OutputView(private val discount: Discount) {
         }
         println()
     }
+
     // 할인 전 결제 금액을 출력하고
     fun printBeforeDiscountPrice(totalPrice: Int) {
         println("<할인 전 주문 금액>")
         println(BEFORE_DISCOUNT_WON.format(totalPrice))
         println()
     }
+
     // 증정 내용 출력
-    fun printPresentationMenu() {
+    fun printPresentationMenu(beforeDiscountTotalPrice: Int) {
         println("<증정 메뉴>")
+        if (EventPresentation.checkEventCondition(beforeDiscountTotalPrice)) {
+            println(PRESENT_GOODS)
+            return
+        }
+        println(NO_BENEFIT)
         println()
     }
+
     // 혜택 내용 출력
     fun printBenefitContent() {
         println("<혜택 내역>")
         if (discount.getTotalDiscount() == 0) {
-            println(NO_DISCOUNT)
+            println(NO_BENEFIT)
             println()
             return
         }
@@ -38,15 +47,17 @@ class OutputView(private val discount: Discount) {
             println(WEEKEND_DISCOUNT.format(discount.getWeekendDiscount()))
         if (discount.getSpecialDayDiscount() > 0)
             println(SPECIAL_DISCOUNT.format(discount.getSpecialDayDiscount()))
+        if (discount.getEvenPresentationDiscount() > 0)
+            println(PRESENTATION_DISCOUNT.format(discount.getEvenPresentationDiscount()))
         println()
     }
 
     // 혜택 받은 금액을 출력
     fun printBenefitPrice() {
         println("<총혜택 금액>")
-        when(discount.getTotalDiscount()) {
+        when (discount.getTotalDiscount()) {
             0 -> println(ZERO_WON)
-            else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalDiscount()))
+            else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalDiscount() + discount.getEvenPresentationDiscount()))
         }
         println()
     }
@@ -57,6 +68,7 @@ class OutputView(private val discount: Discount) {
         println(AFTER_DISCOUNT_TOTAL_WON.format(totalPrice - discount.getTotalDiscount()))
         println()
     }
+
     // 배지를 출력해야겠군
     fun printEventBadge() {
         println("<12월 이벤트 배지>")
@@ -64,7 +76,7 @@ class OutputView(private val discount: Discount) {
     }
 
     companion object {
-        private const val NO_DISCOUNT = "없음"
+        private const val NO_BENEFIT = "없음"
         private const val ZERO_WON = "0원"
         private const val BEFORE_DISCOUNT_WON = "%d원"
         private const val AFTER_DISCOUNT_TOTAL_WON = "%d원"
@@ -73,5 +85,7 @@ class OutputView(private val discount: Discount) {
         private const val WEEKDAY_DISCOUNT = "평일 할인: -%d원"
         private const val WEEKEND_DISCOUNT = "주말 할인: -%d원"
         private const val SPECIAL_DISCOUNT = "특별 할인: -%d원"
+        private const val PRESENTATION_DISCOUNT = "-%d원"
+        private const val PRESENT_GOODS = "샴페인 1개"
     }
 }
