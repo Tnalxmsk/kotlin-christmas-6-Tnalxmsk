@@ -1,21 +1,28 @@
 package christmas.model
 
-class Discount(private val date: VisitDate, private val order: Order) {
+class Discount(
+    private val date: VisitDate,
+    private val order: Order,
+    private val price: Price
+) {
     private var totalDiscount = 0
     private var dDayDiscount = 0
     private var weekdayDiscount = 0
     private var weekendDiscount = 0
     private var specialDayDiscount = 0
+    private var eventPresentationDiscount = 0
+
     init {
         applyDDayDiscount()
         applyWeekdayDiscount()
         applyWeekendDiscount()
         applySpecialDayDiscount()
+        applyPresentEvent()
     }
 
     private fun applyDDayDiscount() {
         if (date.isChristmasDDayEvent().not()) {
-            dDayDiscount =  NOT_DISCOUNT_D_DAY
+            dDayDiscount = NOT_DISCOUNT_D_DAY
             return
         }
         dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.getVisitDate() - 1))
@@ -42,6 +49,12 @@ class Discount(private val date: VisitDate, private val order: Order) {
             specialDayDiscount += 1000
     }
 
+    private fun applyPresentEvent() {
+        if (EventPresentation.checkEventCondition(price.getTotalPrice()))
+            eventPresentationDiscount += 25_000
+        return
+    }
+
     fun getDDayDiscount(): Int = dDayDiscount
 
     fun getWeekdayDiscount(): Int = weekdayDiscount
@@ -49,6 +62,8 @@ class Discount(private val date: VisitDate, private val order: Order) {
     fun getWeekendDiscount(): Int = weekendDiscount
 
     fun getSpecialDayDiscount(): Int = specialDayDiscount
+
+    fun getEvenPresentationDiscount(): Int = eventPresentationDiscount
 
     fun getTotalDiscount(): Int {
         if (date.isWeekend()) {
