@@ -19,6 +19,5 @@ class Order(private val orderMenus: List<Menu>) {
 
     fun findBeverage(): List<Menu> = orderMenus.filter { menu -> isBeverage(menu.menuName) }
 
-
     fun getOrderMenus(): List<Menu> = orderMenus
 }
