@@ -1,6 +1,5 @@
 package christmas.model
 
-import christmas.model.Order
 import christmas.model.menu.Menu
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
