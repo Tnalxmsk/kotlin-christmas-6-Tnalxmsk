@@ -1,6 +1,6 @@
 package christmas
 
-import christmas.model.Discount
+import christmas.model.discount.DecemberDiscount
 import christmas.model.Price
 import christmas.model.VisitDate
 import christmas.view.InputView
@@ -14,18 +14,18 @@ class EventPlanner {
         val visitDate = inputView.readDate()
         val order = inputView.readMenu()
         val price = Price(order)
-        val discount = Discount(visitDate, order, price)
-        val outputView = OutputView(discount)
+        val discount = DecemberDiscount(visitDate, order, price)
+        val outputView = OutputView(discount, visitDate, price)
         printEventInfo(visitDate)
 
         with(outputView) {
             printMenu(order)
-            printBeforeDiscountPrice(price.getTotalPrice())
-            printPresentationMenu(price.getTotalPrice())
+            printBeforeDiscountPrice()
+            printPresentationMenu()
             printBenefitContent()
             printBenefitPrice()
-            printAfterDiscountPrice(price.getTotalPrice())
-            printEventBadge(discount)
+            printAfterDiscountPrice()
+            printEventBadge()
         }
     }
 
