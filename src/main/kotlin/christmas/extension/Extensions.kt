@@ -9,3 +9,15 @@ fun String.toStringToMenuList(): List<Menu> {
         Menu(bundles.first(), bundles.last().toInt())
     }
 }
+
+fun List<String>.toCountList(): List<String> {
+    return this.map { count ->
+        count.split("-")[1]
+    }
+}
+
+fun List<String>.toMenuNameList(): List<String> {
+    return this.map { menu ->
+        menu.split("-")[0]
+    }
+}
