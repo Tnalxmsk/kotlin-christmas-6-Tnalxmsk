@@ -21,7 +21,7 @@ class VisitDate(private val visitDate: Int) {
     }
 
     fun isChristmasDDayEvent(): Boolean {
-        return visitDate < CHRISTMAS
+        return visitDate <= CHRISTMAS
     }
 
     companion object {
