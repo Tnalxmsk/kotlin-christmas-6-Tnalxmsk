@@ -5,9 +5,12 @@ import christmas.model.Order
 import christmas.extension.toStringToMenuList
 import christmas.model.VisitDate
 import christmas.validation.DateValidator
+import christmas.validation.MenuValidator
 
 class InputView {
     private val dateValidator = DateValidator
+    private val menuValidator = MenuValidator
+
     fun readDate(): VisitDate {
         while (true) {
             println(DATE_PROMPT)
@@ -22,10 +25,17 @@ class InputView {
     }
 
     fun readMenu(): Order {
-        println(MENU_PROMPT)
-        val inputMenu = Console.readLine()
-        inputMenu.split(",")
-        return Order(inputMenu.toStringToMenuList())
+        while (true) {
+            println(MENU_PROMPT)
+            try {
+                val inputMenu = Console.readLine()
+                menuValidator.validateMenus(inputMenu)
+                menuValidator.validateMenuBundle(inputMenu.split(","))
+                return Order(inputMenu.toStringToMenuList())
+            } catch (e: IllegalArgumentException) {
+                println(e.message)
+            }
+        }
     }
 
     companion object {
