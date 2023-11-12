@@ -13,7 +13,7 @@ class OutputView(
     private val price: Price
 ) {
     fun printMenu(order: Order) {
-        println("<주문 메뉴>")
+        println(MENU_HEADER)
         order.getOrderMenus().forEach { menu ->
             println(ORDER_MENUS.format(menu.menuName, menu.count))
         }
@@ -22,14 +22,14 @@ class OutputView(
 
     // 할인 전 결제 금액을 출력하고
     fun printBeforeDiscountPrice() {
-        println("<할인 전 총주문 금액>")
+        println(BEFORE_DISCOUNT_HEADER)
         println(BEFORE_DISCOUNT_WON.format(price.getTotalPrice()))
         println()
     }
 
     // 증정 내용 출력
     fun printPresentationMenu() {
-        println("<증정 메뉴>")
+        println(PRESENTATION_HEADER)
         if (EventPresentation.checkEventCondition(price.getTotalPrice())) {
             println(PRESENT_GOODS)
             return
@@ -39,7 +39,7 @@ class OutputView(
 
     // 혜택 내용 출력
     fun printBenefitContent() {
-        println("<혜택 내역>")
+        println(BENEFIT_HEADER)
         if (price.getTotalPrice() < TERMS_AMOUNT) {
             println(NO_BENEFIT)
             return
@@ -62,9 +62,8 @@ class OutputView(
         }
     }
 
-    // 혜택 받은 금액을 출력
     fun printBenefitPrice() {
-        println("<총혜택 금액>")
+        println(BENEFIT_PRICE_HEADER)
         when (discount.getTotalDiscount()) {
             0 -> println(ZERO_WON)
             else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalBenefitAmount()))
@@ -72,16 +71,14 @@ class OutputView(
         println()
     }
 
-    // 할인 후 결제 금액을 출력
     fun printAfterDiscountPrice() {
-        println("<할인 후 예상 결제 금액>")
+        println(AFTER_DISCOUNT_HEADER)
         println(AFTER_DISCOUNT_TOTAL_WON.format(price.getAfterDiscountTotalPrice(discount)))
         println()
     }
 
-    // 배지를 출력해야겠군
     fun printEventBadge() {
-        println("<12월 이벤트 배지>")
+        println(EVENT_BADGE_HEADER)
         val totalBenefitAmount = discount.getTotalDiscount()
         println(Badge.grantBadge(totalBenefitAmount))
     }
@@ -99,7 +96,14 @@ class OutputView(
         private const val WEEKEND_DISCOUNT = "주말 할인"
         private const val SPECIAL_DISCOUNT = "특별 할인"
         private const val PRESENTATION_DISCOUNT = "증정 이벤트: -%d원"
-        private const val PRESENT_GOODS = "샴페인 1개"
+        private const val PRESENT_GOODS = "샴페인 1개\n"
         private const val TERMS_AMOUNT = 10000
+        private const val MENU_HEADER = "<주문 메뉴>"
+        private const val BEFORE_DISCOUNT_HEADER = "<할인 전 총주문 금액>"
+        private const val PRESENTATION_HEADER = "<증정 메뉴>"
+        private const val BENEFIT_HEADER = "<혜택 내역>"
+        private const val BENEFIT_PRICE_HEADER = "<총혜택 금액>"
+        private const val AFTER_DISCOUNT_HEADER = "<할인 후 예상 결제 금액>"
+        private const val EVENT_BADGE_HEADER = "<12월 이벤트 배지>"
     }
 }
