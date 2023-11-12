@@ -12,11 +12,10 @@ class DecemberDiscount(
     private var totalDiscount = 0
 
     override fun applyDDayDiscount(): Int {
-        var dDayDiscount = 0
         if (date.isChristmasDDayEvent().not()) {
             return NO_DISCOUNT_AMOUNT
         }
-        dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.getVisitDate() - 1))
+        val dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.getVisitDate() - 1))
         totalDiscount += dDayDiscount
         return dDayDiscount
     }
