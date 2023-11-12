@@ -40,21 +40,26 @@ class OutputView(
     // 혜택 내용 출력
     fun printBenefitContent() {
         println("<혜택 내역>")
-        if (price.getTotalPrice() < 10000) {
+        if (price.getTotalPrice() < TERMS_AMOUNT) {
             println(NO_BENEFIT)
             return
         }
-        if (visitDate.isChristmasDDayEvent())
-            println(D_DAY_DISCOUNT.format(discount.applyDDayDiscount()))
-        if (visitDate.isWeekday())
-            println(WEEKDAY_DISCOUNT.format(discount.applyWeekdayDiscount()))
-        if (visitDate.isWeekend())
-            println(WEEKEND_DISCOUNT.format(discount.applyWeekendDiscount()))
-        if (visitDate.isSpecialDay())
-            println(SPECIAL_DISCOUNT.format(discount.applySpecialDayDiscount()))
+
+        printDiscount(D_DAY_DISCOUNT, visitDate.isChristmasDDayEvent(), discount.applyDDayDiscount())
+        printDiscount(WEEKDAY_DISCOUNT, visitDate.isWeekday(), discount.applyWeekdayDiscount())
+        printDiscount(WEEKEND_DISCOUNT, visitDate.isWeekend(), discount.applyWeekendDiscount())
+        printDiscount(SPECIAL_DISCOUNT, visitDate.isSpecialDay(), discount.applySpecialDayDiscount())
+
         if (EventPresentation.checkEventCondition(price.getTotalPrice()))
             println(PRESENTATION_DISCOUNT.format(discount.applyPresentEvent()))
+
         println()
+    }
+
+    private fun printDiscount(type: String, condition: Boolean, discountedPrice: Int) {
+        if (condition) {
+            println(DISCOUNT_DETAILS.format(type, discountedPrice))
+        }
     }
 
     // 혜택 받은 금액을 출력
@@ -82,17 +87,19 @@ class OutputView(
     }
 
     companion object {
+        private const val DISCOUNT_DETAILS = "%s: -%d"
         private const val ORDER_MENUS = "%s %d개"
         private const val NO_BENEFIT = "없음\n"
         private const val ZERO_WON = "0원"
         private const val BEFORE_DISCOUNT_WON = "%d원"
         private const val AFTER_DISCOUNT_TOTAL_WON = "%d원"
         private const val TOTAL_DISCOUNT_WON = "-%d원"
-        private const val D_DAY_DISCOUNT = "크리스마스 디데이 할인: -%d원"
-        private const val WEEKDAY_DISCOUNT = "평일 할인: -%d원"
-        private const val WEEKEND_DISCOUNT = "주말 할인: -%d원"
-        private const val SPECIAL_DISCOUNT = "특별 할인: -%d원"
+        private const val D_DAY_DISCOUNT = "크리스마스 디데이 할인"
+        private const val WEEKDAY_DISCOUNT = "평일 할인"
+        private const val WEEKEND_DISCOUNT = "주말 할인"
+        private const val SPECIAL_DISCOUNT = "특별 할인"
         private const val PRESENTATION_DISCOUNT = "증정 이벤트: -%d원"
         private const val PRESENT_GOODS = "샴페인 1개"
+        private const val TERMS_AMOUNT = 10000
     }
 }
