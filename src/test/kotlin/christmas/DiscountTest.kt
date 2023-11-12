@@ -1,6 +1,6 @@
 package christmas
 
-import christmas.model.Discount
+import christmas.model.discount.DecemberDiscount
 import christmas.model.Order
 import christmas.model.Price
 import christmas.model.VisitDate
@@ -14,7 +14,7 @@ class DiscountTest {
         val testDate = VisitDate(24)
         val testOrder = Order(mutableListOf())
         val price = Price(testOrder)
-        assertThat(Discount(testDate, testOrder, price).getDDayDiscount()).isEqualTo(3300)
+        assertThat(DecemberDiscount(testDate, testOrder, price).applyDDayDiscount()).isEqualTo(3300)
     }
 
     @Test
@@ -22,7 +22,7 @@ class DiscountTest {
         val testDate = VisitDate(27)
         val testOrder = Order(mutableListOf())
         val price = Price(testOrder)
-        assertThat(Discount(testDate, testOrder, price).getDDayDiscount()).isEqualTo(0)
+        assertThat(DecemberDiscount(testDate, testOrder, price).applyDDayDiscount()).isEqualTo(0)
     }
 
     @Test
@@ -33,8 +33,8 @@ class DiscountTest {
         val testDate = VisitDate(27)
         val testOrder = Order(menus)
         val price = Price(testOrder)
-        val discount = Discount(testDate, testOrder, price)
-        assertThat(discount.getWeekdayDiscount()).isEqualTo(6069)
+        val discount = DecemberDiscount(testDate, testOrder, price)
+        assertThat(discount.applyWeekdayDiscount()).isEqualTo(6069)
     }
 
     @Test
@@ -45,8 +45,8 @@ class DiscountTest {
         val testDate = VisitDate(30)
         val testOrder = Order(menus)
         val price = Price(testOrder)
-        val discount = Discount(testDate, testOrder, price)
-        assertThat(discount.getWeekendDiscount()).isEqualTo(6069 + 4046)
+        val discount = DecemberDiscount(testDate, testOrder, price)
+        assertThat(discount.applyWeekendDiscount()).isEqualTo(6069 + 4046)
     }
 
     @Test
@@ -57,7 +57,7 @@ class DiscountTest {
         val testDate = VisitDate(31)
         val testOrder = Order(menus)
         val price = Price(testOrder)
-        val discount = Discount(testDate, testOrder, price)
-        assertThat(discount.getSpecialDayDiscount()).isEqualTo(1000)
+        val discount = DecemberDiscount(testDate, testOrder, price)
+        assertThat(discount.applySpecialDayDiscount()).isEqualTo(1000)
     }
 }
