@@ -1,5 +1,6 @@
 package christmas.model
 
+import christmas.model.discount.*
 import christmas.model.menu.Appetizer
 import christmas.model.menu.Beverage
 import christmas.model.menu.Dessert
@@ -25,6 +26,10 @@ class Price(private val order: Order) {
         order.findBeverage().forEach {
             totalPrice += (Beverage.findByMenuName(it.menuName)?.price ?: 0) * it.count
         }
+    }
+
+    fun getAfterDiscountTotalPrice(discount: DecemberDiscount): Int {
+        return totalPrice - discount.getTotalDiscount() + EventPresentation.getEventPresentationGoodsPrice()
     }
 
     fun getTotalPrice(): Int = totalPrice
