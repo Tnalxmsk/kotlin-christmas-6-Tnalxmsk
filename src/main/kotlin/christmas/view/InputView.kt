@@ -4,12 +4,21 @@ import camp.nextstep.edu.missionutils.Console
 import christmas.model.Order
 import christmas.extension.toStringToMenuList
 import christmas.model.VisitDate
+import christmas.validation.DateValidator
 
 class InputView {
+    private val dateValidator = DateValidator
     fun readDate(): VisitDate {
-        println(DATE_PROMPT)
-        val input = Console.readLine()
-        return VisitDate(input.toInt())
+        while (true) {
+            println(DATE_PROMPT)
+            try {
+                val input = Console.readLine()
+                dateValidator.validateDate(input)
+                return VisitDate(input.toInt())
+            } catch (e: IllegalArgumentException) {
+                println(e.message)
+            }
+        }
     }
 
     fun readMenu(): Order {
