@@ -9,14 +9,14 @@ class DecemberDiscount(
     private val order: Order,
     private val price: Price
 ) : DiscountCalculator {
-    private var totalDiscount = 0
+    private var totalBenefitAmount = 0
 
     override fun applyDDayDiscount(): Int {
         if (date.isChristmasDDayEvent().not()) {
             return NO_DISCOUNT_AMOUNT
         }
         val dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.getVisitDate() - 1))
-        totalDiscount += dDayDiscount
+        totalBenefitAmount += dDayDiscount
         return dDayDiscount
     }
 
@@ -27,7 +27,7 @@ class DecemberDiscount(
         menus.forEach { menu ->
             weekdayDiscount += menu.count * WEEKDAY_DISCOUNT_AMOUNT
         }
-        totalDiscount += weekdayDiscount
+        totalBenefitAmount += weekdayDiscount
         return weekdayDiscount
     }
 
@@ -38,13 +38,13 @@ class DecemberDiscount(
         menus.forEach { menu ->
             weekendDiscount += menu.count * WEEKEND_DISCOUNT_AMOUNT
         }
-        totalDiscount += weekendDiscount
+        totalBenefitAmount += weekendDiscount
         return weekendDiscount
     }
 
     override fun applySpecialDayDiscount(): Int {
         if (date.isSpecialDay()) {
-            totalDiscount += SPECIAL_DAY_DISCOUNT
+            totalBenefitAmount += SPECIAL_DAY_DISCOUNT
             return SPECIAL_DAY_DISCOUNT
         }
         return NO_DISCOUNT_AMOUNT
@@ -53,14 +53,18 @@ class DecemberDiscount(
     override fun applyPresentEvent(): Int {
         val presentationGoodsPrice = EventPresentation.getEventPresentationGoodsPrice()
         if (EventPresentation.checkEventCondition(price.getTotalPrice())) {
-            totalDiscount += presentationGoodsPrice
+            totalBenefitAmount += presentationGoodsPrice
             return presentationGoodsPrice
         }
         return NO_DISCOUNT_AMOUNT
     }
 
     fun getTotalDiscount(): Int {
-        return totalDiscount
+        return totalBenefitAmount - EventPresentation.getEventPresentationGoodsPrice()
+    }
+
+    fun getTotalBenefitAmount(): Int {
+        return totalBenefitAmount
     }
 
     companion object {

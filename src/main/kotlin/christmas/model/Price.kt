@@ -29,7 +29,7 @@ class Price(private val order: Order) {
     }
 
     fun getAfterDiscountTotalPrice(discount: DecemberDiscount): Int {
-        return totalPrice - discount.getTotalDiscount() + EventPresentation.getEventPresentationGoodsPrice()
+        return totalPrice - discount.getTotalDiscount()
     }
 
     fun getTotalPrice(): Int = totalPrice
