@@ -1,4 +1,4 @@
-package christmas
+package christmas.model
 
 import christmas.model.Order
 import christmas.model.menu.Menu
