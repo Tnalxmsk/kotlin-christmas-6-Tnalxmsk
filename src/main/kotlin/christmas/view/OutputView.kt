@@ -15,7 +15,7 @@ class OutputView(
     fun printMenu(order: Order) {
         println("<주문 메뉴>")
         order.getOrderMenus().forEach { menu ->
-            println("${menu.menuName} ${menu.count}개")
+            println(ORDER_MENUS.format(menu.menuName, menu.count))
         }
         println()
     }
@@ -62,7 +62,7 @@ class OutputView(
         println("<총혜택 금액>")
         when (discount.getTotalDiscount()) {
             0 -> println(ZERO_WON)
-            else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalDiscount()))
+            else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalBenefitAmount()))
         }
         println()
     }
@@ -82,6 +82,7 @@ class OutputView(
     }
 
     companion object {
+        private const val ORDER_MENUS = "%s %d개"
         private const val NO_BENEFIT = "없음\n"
         private const val ZERO_WON = "0원"
         private const val BEFORE_DISCOUNT_WON = "%d원"
