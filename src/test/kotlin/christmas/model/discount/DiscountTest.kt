@@ -1,4 +1,4 @@
-package christmas
+package christmas.model.discount
 
 import christmas.model.discount.DecemberDiscount
 import christmas.model.Order
@@ -59,5 +59,17 @@ class DiscountTest {
         val price = Price(testOrder)
         val discount = DecemberDiscount(testDate, testOrder, price)
         assertThat(discount.applySpecialDayDiscount()).isEqualTo(1000)
+    }
+
+    @Test
+    fun `증정 삼품 혜택이 적용되었는지 확인`() {
+        val menus = mutableListOf<Menu>()
+        menus.add(Menu("티본스테이크", 3))
+        menus.add(Menu("크리스마스파스타", 2))
+        val testDate = VisitDate(30)
+        val testOrder = Order(menus)
+        val price = Price(testOrder)
+        val discount = DecemberDiscount(testDate, testOrder, price)
+        assertThat(discount.applyPresentEvent()).isEqualTo(25000)
     }
 }
