@@ -28,4 +28,9 @@ class MenuValidatorTest {
         val input = "스테이크-1,제로콜라a".split(",")
         assertThat(MenuValidator.isNotContainHyphen(input)).isEqualTo(true)
     }
+
+    @Test
+    fun `포함되어 있지 않은 메뉴가 있으면 예외를 날림`() {
+        assertThat(MenuValidator.isNotContainMenu("까르보나라-3")).isEqualTo(true)
+    }
 }
