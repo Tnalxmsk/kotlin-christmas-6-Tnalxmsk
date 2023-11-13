@@ -1,6 +1,7 @@
 package christmas.view
 
 import camp.nextstep.edu.missionutils.Console
+import christmas.extension.toStringList
 import christmas.model.Order
 import christmas.extension.toStringToMenuList
 import christmas.model.VisitDate
@@ -30,7 +31,8 @@ class InputView {
             try {
                 val inputMenu = Console.readLine()
                 menuValidator.validateMenus(inputMenu)
-                menuValidator.validateMenuBundle(inputMenu.split(","))
+                menuValidator.validateMenuBundle(inputMenu.toStringList())
+                menuValidator.validateNotContainMenu(inputMenu.toStringList())
                 return Order(inputMenu.toStringToMenuList())
             } catch (e: IllegalArgumentException) {
                 println(e.message)

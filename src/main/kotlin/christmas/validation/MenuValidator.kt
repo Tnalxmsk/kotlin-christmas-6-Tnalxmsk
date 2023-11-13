@@ -2,20 +2,20 @@ package christmas.validation
 
 import christmas.extension.toCountList
 import christmas.extension.toMenuNameList
+import christmas.model.menu.*
 
 enum class MenuValidator(val errorMessage: String) {
     EMPTY_MENU("[ERROR] 메뉴를 입력하지 않았습니다. 다시 입력해 주세요."),
     INCLUDE_GAP("[ERROR] 공백이 포함되어 있습니다. 다시 입력해 주세요."),
-    DUPLICATION_MENU("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
-    OVER_MENU_COUNT("[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요."),
-    INCLUDE_CHARACTER_COUNT("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+    INVALID_MENU("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
+    OVER_MENU_COUNT("[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.");
 
     companion object {
         fun validateMenus(input: String) {
             val error = when {
                 input.isEmpty() -> EMPTY_MENU
                 input.contains(" ") -> INCLUDE_GAP
-                input.contains(",,") -> INCLUDE_CHARACTER_COUNT
+                input.contains(",,") -> INVALID_MENU
                 else -> return
             }
             throw IllegalArgumentException(error.errorMessage)
@@ -23,13 +23,21 @@ enum class MenuValidator(val errorMessage: String) {
 
         fun validateMenuBundle(input: List<String>) {
             val error = when {
-                isNotContainHyphen(input) -> INCLUDE_CHARACTER_COUNT
-                hasDuplicationMenu(input) -> DUPLICATION_MENU
-                hasCountCharacter(input) -> INCLUDE_CHARACTER_COUNT
+                isNotContainHyphen(input) -> INVALID_MENU
+                hasDuplicationMenu(input) -> INVALID_MENU
+                hasCountCharacter(input) -> INVALID_MENU
                 isOverCount(input) -> OVER_MENU_COUNT
                 else -> return
             }
             throw IllegalArgumentException(error.errorMessage)
+        }
+
+        fun validateNotContainMenu(input: List<String>) {
+            input.forEach { menu ->
+                if (isNotContainMenu(menu)) {
+                    throw IllegalArgumentException(INVALID_MENU.errorMessage)
+                } else return
+            }
         }
 
         internal fun hasDuplicationMenu(input: List<String>): Boolean {
@@ -60,6 +68,16 @@ enum class MenuValidator(val errorMessage: String) {
                 }
             }
             return false
+        }
+
+        internal fun isNotContainMenu(menu: String): Boolean {
+            return when {
+                Dessert.entries.any { it.menuName.contains(menu) } -> false
+                Appetizer.entries.any { it.menuName.contains(menu) } -> false
+                Beverage.entries.any { it.menuName.contains(menu) } -> false
+                MainDish.entries.any { it.menuName.contains(menu) } -> false
+                else -> true
+            }
         }
     }
 }
