@@ -8,7 +8,7 @@ enum class MenuValidator(val errorMessage: String) {
     EMPTY_MENU("[ERROR] 메뉴를 입력하지 않았습니다. 다시 입력해 주세요."),
     INCLUDE_GAP("[ERROR] 공백이 포함되어 있습니다. 다시 입력해 주세요."),
     INVALID_MENU("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
-    ONL_BEVERAGE("[ERROR] 음료만 주문하실 수 없습니다. 다시 입력해 주세요"),
+    ONLY_BEVERAGE("[ERROR] 음료만 주문하실 수 없습니다. 다시 입력해 주세요"),
     OVER_MENU_COUNT("[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.");
 
     companion object {
@@ -28,14 +28,14 @@ enum class MenuValidator(val errorMessage: String) {
                 hasDuplicationMenu(input) -> INVALID_MENU
                 hasCountCharacter(input) -> INVALID_MENU
                 isOverCount(input) -> OVER_MENU_COUNT
-                isOnlyBeverage(input) -> ONL_BEVERAGE
+                isOnlyBeverage(input) -> ONLY_BEVERAGE
                 else -> return
             }
             throw IllegalArgumentException(error.errorMessage)
         }
 
         fun validateNotContainMenu(input: List<String>) {
-            input.forEach { menu ->
+            input.toMenuNameList().forEach { menu ->
                 if (isNotContainMenu(menu)) {
                     throw IllegalArgumentException(INVALID_MENU.errorMessage)
                 } else return
@@ -86,7 +86,7 @@ enum class MenuValidator(val errorMessage: String) {
         internal fun isOnlyBeverage(menus: List<String>): Boolean {
             var count = 0
             val menuChecker = MenuChecker
-            menus.forEach {
+            menus.toMenuNameList().forEach {
                 when {
                     menuChecker.isDessert(it) -> count++
                     menuChecker.isAppetizer(it) -> count++
