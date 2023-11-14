@@ -33,4 +33,9 @@ class MenuValidatorTest {
     fun `포함되어 있지 않은 메뉴가 있으면 예외를 날림`() {
         assertThat(MenuValidator.isNotContainMenu("까르보나라-3")).isEqualTo(true)
     }
+
+    @Test
+    fun `음료만 주문 시 true를 반환`() {
+        assertThat(MenuValidator.isOnlyBeverage(listOf("제로콜라-3,샴페인=1"))).isEqualTo(true)
+    }
 }
