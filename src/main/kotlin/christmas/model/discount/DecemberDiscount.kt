@@ -60,7 +60,9 @@ class DecemberDiscount(
     }
 
     fun getTotalDiscount(): Int {
-        return totalBenefitAmount - EventPresentation.getEventPresentationGoodsPrice()
+        return if (EventPresentation.checkEventCondition(price.getTotalPrice())) {
+            totalBenefitAmount - EventPresentation.getEventPresentationGoodsPrice()
+        } else totalBenefitAmount
     }
 
     fun getTotalBenefitAmount(): Int {
