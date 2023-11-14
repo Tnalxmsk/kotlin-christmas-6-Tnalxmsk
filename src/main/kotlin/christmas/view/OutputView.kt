@@ -13,7 +13,7 @@ class OutputView(
     private val price: Price
 ) {
     fun printMenu(order: Order) {
-        println(OutputViewHeader.MENU_HEADER)
+        println(OutputViewHeader.MENU_HEADER.headerView)
         order.getOrderMenus().forEach { menu ->
             println(ORDER_MENUS.format(menu.menuName, menu.count))
         }
@@ -21,34 +21,34 @@ class OutputView(
     }
 
     fun printBeforeDiscountPrice() {
-        println(OutputViewHeader.BEFORE_DISCOUNT_HEADER)
+        println(OutputViewHeader.BEFORE_DISCOUNT_HEADER.headerView)
         println(BEFORE_DISCOUNT_WON.format(price.getTotalPrice()))
         println()
     }
 
     fun printPresentationMenu() {
-        println(OutputViewHeader.PRESENTATION_HEADER)
+        println(OutputViewHeader.PRESENTATION_HEADER.headerView)
         if (EventPresentation.checkEventCondition(price.getTotalPrice())) {
-            println(PRESENT_GOODS)
+            println(EventView.PRESENT_GOODS)
             return
         }
         println(NO_BENEFIT)
     }
 
     fun printBenefitContent() {
-        println(OutputViewHeader.BENEFIT_HEADER)
+        println(OutputViewHeader.BENEFIT_HEADER.headerView)
         if (price.getTotalPrice() < TERMS_AMOUNT) {
             println(NO_BENEFIT)
             return
         }
 
-        printDiscount(D_DAY_DISCOUNT, visitDate.isChristmasDDayEvent(), discount.applyDDayDiscount())
-        printDiscount(WEEKDAY_DISCOUNT, visitDate.isWeekday(), discount.applyWeekdayDiscount())
-        printDiscount(WEEKEND_DISCOUNT, visitDate.isWeekend(), discount.applyWeekendDiscount())
-        printDiscount(SPECIAL_DISCOUNT, visitDate.isSpecialDay(), discount.applySpecialDayDiscount())
+        printDiscount(EventView.D_DAY_DISCOUNT.message, visitDate.isChristmasDDayEvent(), discount.applyDDayDiscount())
+        printDiscount(EventView.WEEKDAY_DISCOUNT.message, visitDate.isWeekday(), discount.applyWeekdayDiscount())
+        printDiscount(EventView.WEEKEND_DISCOUNT.message, visitDate.isWeekend(), discount.applyWeekendDiscount())
+        printDiscount(EventView.SPECIAL_DISCOUNT.message, visitDate.isSpecialDay(), discount.applySpecialDayDiscount())
 
         if (EventPresentation.checkEventCondition(price.getTotalPrice()))
-            println(PRESENTATION_DISCOUNT.format(discount.applyPresentEvent()))
+            println(EventView.PRESENTATION_DISCOUNT.message.format(discount.applyPresentEvent()))
 
         println()
     }
@@ -60,7 +60,7 @@ class OutputView(
     }
 
     fun printBenefitPrice() {
-        println(OutputViewHeader.BENEFIT_PRICE_HEADER)
+        println(OutputViewHeader.BENEFIT_PRICE_HEADER.headerView)
         when (discount.getTotalBenefitAmount()) {
             0 -> println(ZERO_WON)
             else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalBenefitAmount()))
@@ -69,13 +69,13 @@ class OutputView(
     }
 
     fun printAfterDiscountPrice() {
-        println(OutputViewHeader.AFTER_DISCOUNT_HEADER)
+        println(OutputViewHeader.AFTER_DISCOUNT_HEADER.headerView)
         println(AFTER_DISCOUNT_TOTAL_WON.format(price.getAfterDiscountTotalPrice(discount)))
         println()
     }
 
     fun printEventBadge() {
-        println(OutputViewHeader.EVENT_BADGE_HEADER)
+        println(OutputViewHeader.EVENT_BADGE_HEADER.headerView)
         val totalBenefitAmount = discount.getTotalDiscount()
         println(Badge.grantBadge(totalBenefitAmount))
     }
@@ -88,12 +88,6 @@ class OutputView(
         private const val BEFORE_DISCOUNT_WON = "%d원"
         private const val AFTER_DISCOUNT_TOTAL_WON = "%d원"
         private const val TOTAL_DISCOUNT_WON = "-%d원"
-        private const val D_DAY_DISCOUNT = "크리스마스 디데이 할인"
-        private const val WEEKDAY_DISCOUNT = "평일 할인"
-        private const val WEEKEND_DISCOUNT = "주말 할인"
-        private const val SPECIAL_DISCOUNT = "특별 할인"
-        private const val PRESENTATION_DISCOUNT = "증정 이벤트: -%d원"
-        private const val PRESENT_GOODS = "샴페인 1개\n"
         private const val TERMS_AMOUNT = 10000
     }
 }
