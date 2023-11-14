@@ -8,6 +8,7 @@ enum class MenuValidator(val errorMessage: String) {
     EMPTY_MENU("[ERROR] 메뉴를 입력하지 않았습니다. 다시 입력해 주세요."),
     INCLUDE_GAP("[ERROR] 공백이 포함되어 있습니다. 다시 입력해 주세요."),
     INVALID_MENU("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
+    ONL_BEVERAGE("[ERROR] 음료만 주문하실 수 없습니다. 다시 입력해 주세요"),
     OVER_MENU_COUNT("[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.");
 
     companion object {
@@ -27,6 +28,7 @@ enum class MenuValidator(val errorMessage: String) {
                 hasDuplicationMenu(input) -> INVALID_MENU
                 hasCountCharacter(input) -> INVALID_MENU
                 isOverCount(input) -> OVER_MENU_COUNT
+                isOnlyBeverage(input) -> ONL_BEVERAGE
                 else -> return
             }
             throw IllegalArgumentException(error.errorMessage)
@@ -71,13 +73,27 @@ enum class MenuValidator(val errorMessage: String) {
         }
 
         internal fun isNotContainMenu(menu: String): Boolean {
+            val menuChecker = MenuChecker
             return when {
-                Dessert.entries.any { it.menuName.contains(menu) } -> false
-                Appetizer.entries.any { it.menuName.contains(menu) } -> false
-                Beverage.entries.any { it.menuName.contains(menu) } -> false
-                MainDish.entries.any { it.menuName.contains(menu) } -> false
+                menuChecker.isDessert(menu) -> false
+                menuChecker.isAppetizer(menu) -> false
+                menuChecker.isBeverage(menu) -> false
+                menuChecker.isMainDish(menu) -> false
                 else -> true
             }
+        }
+
+        internal fun isOnlyBeverage(menus: List<String>): Boolean {
+            var count = 0
+            val menuChecker = MenuChecker
+            menus.forEach {
+                when {
+                    menuChecker.isDessert(it) -> count++
+                    menuChecker.isAppetizer(it) -> count++
+                    menuChecker.isMainDish(it) -> count++
+                }
+            }
+            return count == 0
         }
     }
 }
