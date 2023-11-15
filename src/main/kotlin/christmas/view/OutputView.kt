@@ -29,7 +29,7 @@ class OutputView(
     fun printPresentationMenu() {
         println(OutputViewHeader.PRESENTATION_HEADER.headerView)
         if (EventPresentation.checkEventCondition(price.getTotalPrice())) {
-            println(EventView.PRESENT_GOODS)
+            println(EventView.PRESENT_GOODS.message)
             return
         }
         println(NO_BENEFIT)
@@ -54,7 +54,7 @@ class OutputView(
     }
 
     private fun printDiscount(type: String, condition: Boolean, discountedPrice: Int) {
-        if (condition) {
+        if (condition && discountedPrice != 0) {
             println(DISCOUNT_DETAILS.format(type, discountedPrice))
         }
     }
@@ -81,13 +81,13 @@ class OutputView(
     }
 
     companion object {
-        private const val DISCOUNT_DETAILS = "%s: -%d"
+        private const val DISCOUNT_DETAILS = "%s: -%,d원"
         private const val ORDER_MENUS = "%s %d개"
         private const val NO_BENEFIT = "없음\n"
         private const val ZERO_WON = "0원"
-        private const val BEFORE_DISCOUNT_WON = "%d원"
-        private const val AFTER_DISCOUNT_TOTAL_WON = "%d원"
-        private const val TOTAL_DISCOUNT_WON = "-%d원"
+        private const val BEFORE_DISCOUNT_WON = "%,d원"
+        private const val AFTER_DISCOUNT_TOTAL_WON = "%,d원"
+        private const val TOTAL_DISCOUNT_WON = "-%,d원"
         private const val TERMS_AMOUNT = 10000
     }
 }
