@@ -6,7 +6,7 @@ fun String.toStringList(): List<String> {
     return this.split(",")
 }
 
-fun String.toStringToMenuList(): List<Menu> {
+fun String.toMenuList(): List<Menu> {
     val orders = this.split(",")
     return orders.map { order ->
         val bundles = order.split("-")

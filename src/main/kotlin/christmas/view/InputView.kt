@@ -1,9 +1,9 @@
 package christmas.view
 
 import camp.nextstep.edu.missionutils.Console
+import christmas.extension.toMenuList
 import christmas.extension.toStringList
 import christmas.model.Order
-import christmas.extension.toStringToMenuList
 import christmas.model.date.VisitDate
 import christmas.validation.DateValidator
 import christmas.validation.MenuValidator
@@ -33,7 +33,7 @@ class InputView {
                 menuValidator.validateMenus(inputMenu)
                 menuValidator.validateMenuBundle(inputMenu.toStringList())
                 menuValidator.validateNotContainMenu(inputMenu.toStringList())
-                return Order(inputMenu.toStringToMenuList())
+                return Order(inputMenu.toMenuList())
             } catch (e: IllegalArgumentException) {
                 println(e.message)
             }
