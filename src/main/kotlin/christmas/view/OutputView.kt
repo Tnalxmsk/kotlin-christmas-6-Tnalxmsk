@@ -1,18 +1,15 @@
 package christmas.view
 
-import christmas.model.Badge
+import christmas.model.*
+import christmas.model.date.DateChecker
 import christmas.model.discount.DecemberDiscount
 import christmas.model.discount.EventPresentation
-import christmas.model.Order
-import christmas.model.Price
-import christmas.model.VisitDate
 
 class OutputView(
     private val discount: DecemberDiscount,
-    private val visitDate: VisitDate,
     private val price: Price
 ) {
-    fun printDecemberEventView() = println(DECEMBER_EVENT_VIEW.format(visitDate.getVisitDate()))
+    fun printDecemberEventView(date: Int) = println(DECEMBER_EVENT_VIEW.format(date))
 
     fun printMenu(order: Order) {
         println(OutputViewHeader.MENU_HEADER.headerView)
@@ -37,25 +34,30 @@ class OutputView(
         println(NO_BENEFIT)
     }
 
-    fun printBenefitContent() {
+    fun printBenefitContent(date: Int) {
         println(OutputViewHeader.BENEFIT_HEADER.headerView)
         if (price.getTotalPrice() < TERMS_AMOUNT) {
             println(NO_BENEFIT)
             return
         }
-
-        printDiscount(EventView.D_DAY_DISCOUNT.message, visitDate.isChristmasDDayEvent(), discount.applyDDayDiscount())
-        printDiscount(EventView.WEEKDAY_DISCOUNT.message, visitDate.isWeekday(), discount.applyWeekdayDiscount())
-        printDiscount(EventView.WEEKEND_DISCOUNT.message, visitDate.isWeekend(), discount.applyWeekendDiscount())
-        printDiscount(EventView.SPECIAL_DISCOUNT.message, visitDate.isSpecialDay(), discount.applySpecialDayDiscount())
-
-        if (EventPresentation.checkEventCondition(price.getTotalPrice()))
-            println(EventView.PRESENTATION_DISCOUNT.message.format(discount.applyPresentEvent()))
-
+        printDetailAll(date)
         println()
     }
 
-    private fun printDiscount(type: String, condition: Boolean, discountedPrice: Int) {
+    private fun printDetailAll(date: Int) {
+        val check = DateChecker
+        printDetail(EventView.D_DAY_DISCOUNT.message, check.isDDayEvent(date), discount.applyDDayDiscount())
+        printDetail(EventView.WEEKDAY_DISCOUNT.message, check.isWeekday(date), discount.applyWeekdayDiscount())
+        printDetail(EventView.WEEKEND_DISCOUNT.message, check.isWeekend(date), discount.applyWeekendDiscount())
+        printDetail(EventView.SPECIAL_DISCOUNT.message, check.isSpecialDay(date), discount.applySpecialDayDiscount())
+        printDetail(
+            EventView.PRESENTATION_EVENT.message,
+            EventPresentation.checkEventCondition(price.getTotalPrice()),
+            discount.applyPresentEvent()
+        )
+    }
+
+    private fun printDetail(type: String, condition: Boolean, discountedPrice: Int) {
         if (condition && (discountedPrice != NONE_DISCOUNT)) {
             println(DISCOUNT_DETAILS.format(type, discountedPrice))
         }
