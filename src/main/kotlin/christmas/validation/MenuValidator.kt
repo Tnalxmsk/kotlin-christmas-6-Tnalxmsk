@@ -12,6 +12,9 @@ enum class MenuValidator(val errorMessage: String) {
     OVER_MENU_COUNT("[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.");
 
     companion object {
+        private const val MAX_MENU_COUNT = 20
+        private const val ONLY_BEVERAGE_COUNT = 0
+
         fun validateMenus(input: String) {
             val error = when {
                 input.isEmpty() -> EMPTY_MENU
@@ -52,7 +55,7 @@ enum class MenuValidator(val errorMessage: String) {
             for (count in input.toCountList()) {
                 totalCount += count.toInt()
             }
-            return totalCount > 20
+            return totalCount > MAX_MENU_COUNT
         }
 
         internal fun hasCountCharacter(input: List<String>): Boolean {
@@ -93,7 +96,7 @@ enum class MenuValidator(val errorMessage: String) {
                     menuChecker.isMainDish(it) -> count++
                 }
             }
-            return count == 0
+            return count == ONLY_BEVERAGE_COUNT
         }
     }
 }
