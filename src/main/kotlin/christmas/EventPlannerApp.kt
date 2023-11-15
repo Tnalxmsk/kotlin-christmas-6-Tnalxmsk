@@ -12,22 +12,22 @@ class EventPlannerApp {
     fun startPlanner() {
         println(PLANNER_GREETING)
 
-        val visitDate = inputView.readDate()
+        val date = inputView.readDate()
         val order = inputView.readMenu()
         val price = Price(order)
-        val discount = DecemberDiscount(visitDate, order, price)
-        val outputView = OutputView(discount, visitDate, price)
+        val discount = DecemberDiscount(date, order, price)
+        val outputView = OutputView(discount, price)
 
-        printAllOutputView(outputView, order)
+        printAllOutputView(outputView, order, date.visitDate)
     }
 
-    private fun printAllOutputView(outputView: OutputView, order: Order) {
+    private fun printAllOutputView(outputView: OutputView, order: Order, date: Int) {
         with(outputView) {
-            printDecemberEventView()
+            printDecemberEventView(date)
             printMenu(order)
             printBeforeDiscountPrice()
             printPresentationMenu()
-            printBenefitContent()
+            printBenefitContent(date)
             printBenefitPrice()
             printAfterDiscountPrice()
             printEventBadge()

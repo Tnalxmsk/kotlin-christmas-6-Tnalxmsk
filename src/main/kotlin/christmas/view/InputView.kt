@@ -4,7 +4,7 @@ import camp.nextstep.edu.missionutils.Console
 import christmas.extension.toStringList
 import christmas.model.Order
 import christmas.extension.toStringToMenuList
-import christmas.model.VisitDate
+import christmas.model.date.VisitDate
 import christmas.validation.DateValidator
 import christmas.validation.MenuValidator
 

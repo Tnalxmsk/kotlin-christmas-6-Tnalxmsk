@@ -2,7 +2,7 @@ package christmas.model.discount
 
 import christmas.model.Order
 import christmas.model.Price
-import christmas.model.VisitDate
+import christmas.model.date.VisitDate
 import christmas.model.menu.Menu
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat

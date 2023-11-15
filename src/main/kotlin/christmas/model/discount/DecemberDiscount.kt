@@ -1,8 +1,9 @@
 package christmas.model.discount
 
+import christmas.model.date.DateChecker
 import christmas.model.Order
 import christmas.model.Price
-import christmas.model.VisitDate
+import christmas.model.date.VisitDate
 
 class DecemberDiscount(
     private val date: VisitDate,
@@ -12,10 +13,10 @@ class DecemberDiscount(
     private var totalBenefitAmount = 0
 
     override fun applyDDayDiscount(): Int {
-        if (date.isChristmasDDayEvent().not()) {
+        if (DateChecker.isDDayEvent(date.visitDate).not()) {
             return NO_DISCOUNT_AMOUNT
         }
-        val dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.getVisitDate() - 1))
+        val dDayDiscount = DEFAULT_D_DAY_DISCOUNT + (PLUS_D_DAY_DISCOUNT * (date.visitDate - 1))
         totalBenefitAmount += dDayDiscount
         return dDayDiscount
     }
@@ -23,7 +24,7 @@ class DecemberDiscount(
     override fun applyWeekdayDiscount(): Int {
         val menus = order.findDessert()
         var weekdayDiscount = 0
-        if (menus.isEmpty() || date.isWeekday().not()) return NO_DISCOUNT_AMOUNT
+        if (menus.isEmpty() || DateChecker.isWeekday(date.visitDate).not()) return NO_DISCOUNT_AMOUNT
         menus.forEach { menu ->
             weekdayDiscount += menu.count * WEEKDAY_DISCOUNT_AMOUNT
         }
@@ -34,7 +35,7 @@ class DecemberDiscount(
     override fun applyWeekendDiscount(): Int {
         val menus = order.findMainDish()
         var weekendDiscount = 0
-        if (menus.isEmpty() || date.isWeekend().not()) return NO_DISCOUNT_AMOUNT
+        if (menus.isEmpty() || DateChecker.isWeekend(date.visitDate).not()) return NO_DISCOUNT_AMOUNT
         menus.forEach { menu ->
             weekendDiscount += menu.count * WEEKEND_DISCOUNT_AMOUNT
         }
@@ -43,7 +44,7 @@ class DecemberDiscount(
     }
 
     override fun applySpecialDayDiscount(): Int {
-        if (date.isSpecialDay()) {
+        if (DateChecker.isSpecialDay(date.visitDate)) {
             totalBenefitAmount += SPECIAL_DAY_DISCOUNT
             return SPECIAL_DAY_DISCOUNT
         }
