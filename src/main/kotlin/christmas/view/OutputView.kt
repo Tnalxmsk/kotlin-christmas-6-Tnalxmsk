@@ -12,7 +12,7 @@ class OutputView(
     private val visitDate: VisitDate,
     private val price: Price
 ) {
-    fun printEventInfo() = println(EVENT_INFO.format(visitDate.getVisitDate()))
+    fun printDecemberEventView() = println(DECEMBER_EVENT_VIEW.format(visitDate.getVisitDate()))
 
     fun printMenu(order: Order) {
         println(OutputViewHeader.MENU_HEADER.headerView)
@@ -56,7 +56,7 @@ class OutputView(
     }
 
     private fun printDiscount(type: String, condition: Boolean, discountedPrice: Int) {
-        if (condition && discountedPrice != 0) {
+        if (condition && (discountedPrice != NONE_DISCOUNT)) {
             println(DISCOUNT_DETAILS.format(type, discountedPrice))
         }
     }
@@ -64,7 +64,7 @@ class OutputView(
     fun printBenefitPrice() {
         println(OutputViewHeader.BENEFIT_PRICE_HEADER.headerView)
         when (discount.getTotalBenefitAmount()) {
-            0 -> println(ZERO_WON)
+            NONE_DISCOUNT -> println(ZERO_WON)
             else -> println(TOTAL_DISCOUNT_WON.format(discount.getTotalBenefitAmount()))
         }
         println()
@@ -83,7 +83,7 @@ class OutputView(
     }
 
     companion object {
-        private const val EVENT_INFO = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n"
+        private const val DECEMBER_EVENT_VIEW = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n"
         private const val DISCOUNT_DETAILS = "%s: -%,d원"
         private const val ORDER_MENUS = "%s %d개"
         private const val NO_BENEFIT = "없음\n"
@@ -92,5 +92,6 @@ class OutputView(
         private const val AFTER_DISCOUNT_TOTAL_WON = "%,d원"
         private const val TOTAL_DISCOUNT_WON = "-%,d원"
         private const val TERMS_AMOUNT = 10000
+        private const val NONE_DISCOUNT = 0
     }
 }

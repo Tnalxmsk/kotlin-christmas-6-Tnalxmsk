@@ -1,5 +1,5 @@
 package christmas
 
 fun main() {
-    EventPlanner().startPlanner()
+    EventPlannerApp().startPlanner()
 }
