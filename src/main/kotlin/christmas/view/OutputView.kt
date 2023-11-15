@@ -12,6 +12,8 @@ class OutputView(
     private val visitDate: VisitDate,
     private val price: Price
 ) {
+    fun printEventInfo() = println(EVENT_INFO.format(visitDate.getVisitDate()))
+
     fun printMenu(order: Order) {
         println(OutputViewHeader.MENU_HEADER.headerView)
         order.getOrderMenus().forEach { menu ->
@@ -76,11 +78,12 @@ class OutputView(
 
     fun printEventBadge() {
         println(OutputViewHeader.EVENT_BADGE_HEADER.headerView)
-        val totalBenefitAmount = discount.getTotalDiscount()
+        val totalBenefitAmount = discount.getTotalBenefitAmount()
         println(Badge.grantBadge(totalBenefitAmount))
     }
 
     companion object {
+        private const val EVENT_INFO = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n"
         private const val DISCOUNT_DETAILS = "%s: -%,d원"
         private const val ORDER_MENUS = "%s %d개"
         private const val NO_BENEFIT = "없음\n"
