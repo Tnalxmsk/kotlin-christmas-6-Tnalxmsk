@@ -32,7 +32,8 @@
   - 모든 혜택이 적용된 금액을 반환하는 기능 O
 -[x] 배지: Badge - enum class
   - 금액 별로 배지를 반환 O
--[x] 방문 날짜: VisitDate
+-[x] 방문 날짜: VisitDate - dataClass
+-[x] 날짜 확인: DateChecker - object
   - 평일 인지 확인하는 기능 O
   - 주말 인지 확인하는 기능 O
   - 특별할인인지 판단하는 기능 O
