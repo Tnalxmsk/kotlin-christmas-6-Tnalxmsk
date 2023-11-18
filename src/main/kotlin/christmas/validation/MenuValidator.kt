@@ -41,8 +41,9 @@ enum class MenuValidator(val errorMessage: String) {
             input.toMenuNameList().forEach { menu ->
                 if (isNotContainMenu(menu)) {
                     throw IllegalArgumentException(INVALID_MENU.errorMessage)
-                } else return
+                }
             }
+            return
         }
 
         internal fun hasDuplicationMenu(input: List<String>): Boolean {
